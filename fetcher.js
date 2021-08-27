@@ -8,7 +8,7 @@ const rl = readline.createInterface({
   output: process.stdout
 });
 
-let hostAddress = argv[0];
+const hostAddress = argv[0];
 const filePath = argv[1];
 
 const download = function(url) {
