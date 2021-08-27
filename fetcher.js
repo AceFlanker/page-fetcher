@@ -1,5 +1,4 @@
 const argv = process.argv.slice(2);
-const net = require("net");
 const request = require('request');
 const fs = require('fs');
 const readline = require('readline');
@@ -11,32 +10,6 @@ const rl = readline.createInterface({
 
 let hostAddress = argv[0];
 const filePath = argv[1];
-let close;
-const endSession = function() {
-  close.end();
-  process.exit();
-};
-
-const connect = function() {
-  const conn = net.createConnection({
-    host: hostAddress,
-    port: 80
-  });
-
-  conn.setEncoding("utf8");
-  conn.on('connect', () => {
-    console.log('Server successfully connected.');
-    download(hostAddress);
-  });
-  conn.on('data', (data) => {
-    console.log('Server says: ', data);
-  });
-  conn.on('end', () => {
-    console.log('Server disconnected.');
-  });
-  close = conn;
-  return conn;
-};
 
 const download = function(url) {
   request('http://' + url, (error, response, body) => {
@@ -52,8 +25,8 @@ const download = function(url) {
           return;
         }
         const fileSize = fs.statSync(filePath).size;
-        console.log(`File successfully downloaded and saved ${targetFile.length} bytes (.length)/${fileSize} (statSync().size) to ${filePath}`);
-        endSession();
+        console.log(`File successfully downloaded and saved ${targetFile.length} bytes (.length)/${fileSize} (statSync().size) to ${filePath}`)
+        process.exit();
       });
     }
   });
@@ -122,8 +95,8 @@ if (!nameCheck.test(filePath)) {
       rl.close();
       return;
     }
-    connect();
+    download(hostAddress);
   });
 } else {
-  connect();
+  download(hostAddress);
 }
