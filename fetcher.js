@@ -25,7 +25,7 @@ const download = function(url) {
           return;
         }
         const fileSize = fs.statSync(filePath).size;
-        console.log(`File successfully downloaded and saved ${targetFile.length} bytes (.length)/${fileSize} (statSync().size) to ${filePath}`)
+        console.log(`File successfully downloaded and saved ${targetFile.length} bytes (.length)/${fileSize} (statSync().size) to ${filePath}`);
         process.exit();
       });
     }
