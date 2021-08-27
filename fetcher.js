@@ -108,13 +108,15 @@ if (!domainCheck2.test(hostAddress)) {
   process.exit();
 }
 
+// Checks if the download path is specified in the format of:
+// ./xxxx/index.html
 if (!nameCheck.test(filePath)) {
   message(3);
   process.exit();
 } else if (!fs.existsSync(filePath.match(pathCheck)[0])) {
-  message(4);
+  message(4);   // Checks if the directory actually exists
   process.exit();
-} else if (fs.existsSync(filePath)) {
+} else if (fs.existsSync(filePath)) { // Asks user to confirm an overwrite
   rl.question(sadPathList[5], answer => {
     if (answer !== 'yes') {
       rl.close();
